@@ -81,3 +81,44 @@ form button {
     right: 0;
     cursor: pointer;
 }
+
+/* MAIN */
+
+main {
+    height: auto;
+    background: #EDEDED;
+    padding: 30px 104px;
+}
+main .recipes-filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+main .recipes-filter-container h2 {
+    font-size: 21px;
+    font-family: 'Anton' sans-serif;
+    font-weight: 400;
+
+}
+
+main .recipes-filter-container .filters {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 65px;
+}
+
+.filters select {
+    height: 56px;
+    width: 188px;
+    display: flex;
+    align-items: center;
+    gap: 63px;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    color: #1B1B1B;
+    border-radius: 11px;
+}

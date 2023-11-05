@@ -44,4 +44,4 @@ let card =`
             </div>
 `;
 
-let cardInserted = results.insertAdjacentHTML('afterbegin', card);
+let cardInserted = results.insertAdjacentHTML('beforeend', card);

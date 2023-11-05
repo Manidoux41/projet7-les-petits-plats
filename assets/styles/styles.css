@@ -121,7 +121,13 @@ main .recipes-filter-container .filters {
     font-size: 16px;
     color: #1B1B1B;
     border-radius: 11px;
+    background-color: #fff;
+    padding: 16px;
+    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #ddd;
+    -webkit-appearance: none;
+    background-position-x: 162px;
 }
+
 
 /*Recipes card*/
 .recipes-card-container {

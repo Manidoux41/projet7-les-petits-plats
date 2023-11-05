@@ -122,3 +122,20 @@ main .recipes-filter-container .filters {
     color: #1B1B1B;
     border-radius: 11px;
 }
+
+/*Recipes card*/
+.recipes-card-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.recipe-card {
+    height: 731px;
+    width: 380px;
+    border: none;
+    border-radius: 21px;
+    overflow: hidden;
+    background-color: #fff;
+    margin-bottom: 66px;
+}

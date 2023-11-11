@@ -13,6 +13,7 @@ function displayRecipes(recipes) {
         recipeContainerImg.classList.add('picture-info');
         recipeImg = document.createElement('img');
         recipeImg.src = `../assets/photos/${recipe.image}`;
+        recipeImg.alt = recipe.name;
         recipeContainerImg.appendChild(recipeImg);
         recipeTime = document.createElement('p');
         recipeTime.classList.add('prep-time');
@@ -35,7 +36,7 @@ function displayRecipes(recipes) {
         recipeTitle.classList.add('title');
         recipeTitle.innerText = "Recette";
         recipeDescription = document.createElement('p');
-        recipeDescription.innerText = recipe.description.substring(0, 150);
+        recipeDescription.innerText = recipe.description.substring(0, 200);
         
         recipePreparation.appendChild(recipeTitle);
         recipePreparation.appendChild(recipeDescription);
@@ -86,7 +87,7 @@ async function getRecipes() {
 
 async function init() {
     const recipes = await getRecipes();
-    // console.log(recipes);
+    console.log(recipes);
     displayRecipes(recipes);
 }
 

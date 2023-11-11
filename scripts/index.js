@@ -35,7 +35,8 @@ function displayRecipes(recipes) {
         recipeTitle.classList.add('title');
         recipeTitle.innerText = "Recette";
         recipeDescription = document.createElement('p');
-        recipeDescription.innerText = recipe.description;
+        recipeDescription.innerText = recipe.description.substring(0, 150);
+        
         recipePreparation.appendChild(recipeTitle);
         recipePreparation.appendChild(recipeDescription);
 

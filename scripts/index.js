@@ -31,7 +31,7 @@ function displayRecipes(recipes) {
         recipePreparation = document.createElement('div');
         recipePreparation.classList.add('preparation');
         recipeMain.appendChild(recipePreparation);
-        recipeTitle = document.createElement('div');
+        recipeTitle = document.createElement('h3');
         recipeTitle.classList.add('title');
         recipeTitle.innerText = "Recette";
         recipeDescription = document.createElement('p');
@@ -43,7 +43,7 @@ function displayRecipes(recipes) {
         recipeIngredientMain = document.createElement('div');
         recipeIngredientMain.classList.add('ingredients');
         recipeMain.appendChild(recipeIngredientMain);
-        ingredientName = document.createElement('div');
+        ingredientName = document.createElement('h3');
         ingredientName.classList.add('title');
         ingredientName.innerText = "Ingrédient";
         recipeIngredientMain.appendChild(ingredientName);

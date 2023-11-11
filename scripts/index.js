@@ -3,8 +3,12 @@ const results = document.querySelector('.recipes-card-container');
 function displayRecipes(recipes) {
     results.innerHTML = "";
     recipes.forEach(recipe => {
+
+        // Container card principal
         const card = document.createElement('div');
         card.classList.add('recipe-card');
+
+        // Container image
         recipeContainerImg = document.createElement('div');
         recipeContainerImg.classList.add('picture-info');
         recipeImg = document.createElement('img');
@@ -15,61 +19,65 @@ function displayRecipes(recipes) {
         recipeTime.innerText = `${recipe.time}min`;
         recipeContainerImg.appendChild(recipeTime);
 
+        //Nom de la recette
+        recipeMain = document.createElement('div');
+        recipeMain.classList.add('recipe');
+        recipeName = document.createElement('h2');
+        recipeName.classList.add('recipes-name');
+        recipeName.innerText = recipe.name;
+        recipeMain.appendChild(recipeName);
+
+        // Preparation
+        recipePreparation = document.createElement('div');
+        recipePreparation.classList.add('preparation');
+        recipeMain.appendChild(recipePreparation);
+        recipeTitle = document.createElement('div');
+        recipeTitle.classList.add('title');
+        recipeTitle.innerText = "Recette";
+        recipeDescription = document.createElement('p');
+        recipeDescription.innerText = recipe.description;
+        recipePreparation.appendChild(recipeTitle);
+        recipePreparation.appendChild(recipeDescription);
+
+        //Ingredient
+        recipeIngredientMain = document.createElement('div');
+        recipeIngredientMain.classList.add('ingredients');
+        recipeMain.appendChild(recipeIngredientMain);
+        ingredientName = document.createElement('div');
+        ingredientName.classList.add('title');
+        ingredientName.innerText = "Ingrédient";
+        recipeIngredientMain.appendChild(ingredientName);
+        ingredientList = document.createElement('ul');
+        recipeIngredientMain.appendChild(ingredientList);
+        // Ingredient List
+        recipe.ingredients.map(item => {
+            if (item.quantity !== undefined && item.unit !== undefined) {
+                return ingredientList.innerHTML += `
+                    <li>
+                        <p>${item.ingredient}</p>
+                        <span>${item.quantity} ${item.unit}</span>
+                    </li>
+                `
+            } else if (item.quantity !== undefined) {
+                return ingredientList.innerHTML += `
+                    <li>
+                        <p>${item.ingredient}</p>
+                        <span>${item.quantity}</span>
+                    </li>
+                `
+            }
+        });
 
         card.appendChild(recipeContainerImg);
+        card.appendChild(recipeMain);
+
         results.appendChild(card);
     });
-}
-
-        /* let card =`
-            <div class="recipe-card">
-                <div class="picture-info">
-                    <img src="/assets/images/header/lampos-aritonang-24gR_9lCdes-unsplash 1.jpg" alt="plat1">
-                    <p class="prep-time">60min</p>
-                </div>
-                <div class="recipe">
-                    <h2 class="recipes-name">Poulet Coco</h2>
-                    <div class="preparation">
-                        <div class="title">Recette</div>
-                        <p>Découper le thon en dés, le mettre dans un plat et le recouvrir de jus de citron vert (mieux vaut prendre un plat large et peu profond). Laisser reposer au réfrigérateur au moins 2 heures.</p>
-                    </div>
-                    <div class="ingredients">
-                        <div class="title">Ingredients</div>
-                        <ul>
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>  
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>  
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>                            
-                        </ul>
-                    </div>
-                </div>
-            </div>
-`; */
-
+};
 
 async function getRecipes() {
     const response = await fetch('../data/recipes.json')
-        
+
     const data = await response.json();
 
     return data.recipes;
@@ -77,55 +85,9 @@ async function getRecipes() {
 
 async function init() {
     const recipes = await getRecipes();
-    console.log(recipes);
+    // console.log(recipes);
     displayRecipes(recipes);
 }
 
-init()
+init();
 
-/* let card =`
-<div class="recipe-card">
-                <div class="picture-info">
-                    <img src="/assets/images/header/lampos-aritonang-24gR_9lCdes-unsplash 1.jpg" alt="plat1">
-                    <p class="prep-time">60min</p>
-                </div>
-                <div class="recipe">
-                    <h2 class="recipes-name">Poulet Coco</h2>
-                    <div class="preparation">
-                        <div class="title">Recette</div>
-                        <p>Découper le thon en dés, le mettre dans un plat et le recouvrir de jus de citron vert (mieux vaut prendre un plat large et peu profond). Laisser reposer au réfrigérateur au moins 2 heures.</p>
-                    </div>
-                    <div class="ingredients">
-                        <div class="title">Ingredients</div>
-                        <ul>
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>  
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>  
-                            <li>
-                                <p>Thon Rouge (ou blanc)</p>
-                                <span>200g</span>
-                            </li>                            
-                        </ul>
-                    </div>
-                </div>
-            </div>
-`;
-
-let cardInserted = results.insertAdjacentHTML('beforeend', card); */

@@ -1,10 +1,14 @@
 const results = document.querySelector('.recipes-card-container');
-const formEl = document.querySelector('form');
+const inputEl = document.getElementById('search-plate');
+formSearch = document.getElementById('form-search');
+let recettes = [];
 
-formEl.addEventListener('keyup', (e) => {
+formSearch.addEventListener('keyup', (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+    let formValue = e.target.value;
+    console.log(formValue); 
 })
+
 
 
 
@@ -13,7 +17,7 @@ function displayRecipes(recipes) {
     recipes.forEach(recipe => {
 
         // Container card principal
-        const card = document.createElement('div');
+        const card = document.createElement('article');
         card.classList.add('recipe-card');
 
         // Container image
@@ -92,11 +96,14 @@ async function getRecipes() {
 
     const data = await response.json();
 
-    return data.recipes;
+    recettes = data.recipes;
+
+    return recettes;
 }
 
 async function init() {
     const recipes = await getRecipes();
+    console.log(recipes);
     displayRecipes(recipes);
 }
 

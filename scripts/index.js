@@ -1,4 +1,10 @@
 const results = document.querySelector('.recipes-card-container');
+const formEl = document.querySelector('form');
+
+formEl.addEventListener('keyup', (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+})
 
 function displayRecipes(recipes) {
     results.innerHTML = "";

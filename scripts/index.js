@@ -6,9 +6,7 @@ let recettes = [];
 formSearch.addEventListener('keyup', (e) => {
     e.preventDefault();
     let formValue = e.target.value;
-    console.log(formValue);
-    
-  
+    console.log(formValue); 
 })
 
 

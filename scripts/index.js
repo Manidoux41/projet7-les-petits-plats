@@ -68,3 +68,14 @@ function createRecipeList(recipeList) {
         searchResults.appendChild(recipeCard);
     });
 }
+
+searchInput.addEventListener("input", filterData);
+
+function filterData(e) {
+    searchResults.innerHTML = "";
+    const value = e.target.value.toLowerCase();
+    const filteredData = dataArray.filter((data) => {
+        return data.name.toLowerCase().includes(value);
+    });
+    createRecipeList(filteredData);
+}

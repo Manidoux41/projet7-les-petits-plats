@@ -1,111 +1,81 @@
-const results = document.querySelector('.recipes-card-container');
-const inputEl = document.getElementById('search-plate');
-formSearch = document.getElementById('form-search');
-let recettes = [];
+const searchInput = document.querySelector('#search-plate');
+const searchResults = document.querySelector('.recipes-card-container');
 
-formSearch.addEventListener('keyup', (e) => {
-    e.preventDefault();
-    let formValue = e.target.value;
-    console.log(formValue); 
-})
-
-
-
-
-function displayRecipes(recipes) {
-    results.innerHTML = "";
-    recipes.forEach(recipe => {
-
-        // Container card principal
-        const card = document.createElement('article');
-        card.classList.add('recipe-card');
-
-        // Container image
-        recipeContainerImg = document.createElement('div');
-        recipeContainerImg.classList.add('picture-info');
-        recipeImg = document.createElement('img');
-        recipeImg.src = `../assets/photos/${recipe.image}`;
-        recipeImg.alt = recipe.name;
-        recipeContainerImg.appendChild(recipeImg);
-        recipeTime = document.createElement('p');
-        recipeTime.classList.add('prep-time');
-        recipeTime.innerText = `${recipe.time}min`;
-        recipeContainerImg.appendChild(recipeTime);
-
-        //Nom de la recette
-        recipeMain = document.createElement('div');
-        recipeMain.classList.add('recipe');
-        recipeName = document.createElement('h2');
-        recipeName.classList.add('recipes-name');
-        recipeName.innerText = recipe.name;
-        recipeMain.appendChild(recipeName);
-
-        // Preparation
-        recipePreparation = document.createElement('div');
-        recipePreparation.classList.add('preparation');
-        recipeMain.appendChild(recipePreparation);
-        recipeTitle = document.createElement('h3');
-        recipeTitle.classList.add('title');
-        recipeTitle.innerText = "Recette";
-        recipeDescription = document.createElement('p');
-        recipeDescription.innerText = `${recipe.description.substring(0, 180)}${
-            recipe.description.length > 180 ? "..." : ""
-        }`;
-        
-        recipePreparation.appendChild(recipeTitle);
-        recipePreparation.appendChild(recipeDescription);
-
-        //Ingredient
-        recipeIngredientMain = document.createElement('div');
-        recipeIngredientMain.classList.add('ingredients');
-        recipeMain.appendChild(recipeIngredientMain);
-        ingredientName = document.createElement('h3');
-        ingredientName.classList.add('title');
-        ingredientName.innerText = "Ingrédient";
-        recipeIngredientMain.appendChild(ingredientName);
-        ingredientList = document.createElement('ul');
-        recipeIngredientMain.appendChild(ingredientList);
-        // Ingredient List
-        recipe.ingredients.map(item => {
-            if (item.quantity !== undefined && item.unit !== undefined) {
-                return ingredientList.innerHTML += `
-                    <li>
-                        <p>${item.ingredient}</p>
-                        <span>${item.quantity} ${item.unit}</span>
-                    </li>
-                `
-            } else if (item.quantity !== undefined) {
-                return ingredientList.innerHTML += `
-                    <li>
-                        <p>${item.ingredient}</p>
-                        <span>${item.quantity}</span>
-                    </li>
-                `
-            }
-        });
-
-        card.appendChild(recipeContainerImg);
-        card.appendChild(recipeMain);
-
-        results.appendChild(card);
-    });
-};
+let dataArray;
 
 async function getRecipes() {
-    const response = await fetch('../data/recipes.json')
-
-    const data = await response.json();
-
-    recettes = data.recipes;
-
-    return recettes;
+    const res = await fetch('data/recipes.json');
+    const { recipes } = await res.json();
+    dataArray = orderList(recipes);
+    createRecipeList(dataArray);
 }
 
-async function init() {
-    const recipes = await getRecipes();
-    console.log(recipes);
-    displayRecipes(recipes);
+getRecipes();
+
+function orderList(data) {
+    const orderedData = data.sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+            return -1;
+        }
+
+        return 0;
+    })
+    return orderedData;
 }
 
-init();
+function createRecipeList(recipeList) {
+    recipeList.forEach(recipe => {
+        const recipeCard = document.createElement('div');
+        recipeCard.setAttribute('class', 'recipe-card');
+        let fileName = "./assets/photos/";
 
+        recipeCard.innerHTML = `
+            <div class="picture-info">
+                <img src=${fileName}${recipe.image} alt=${recipe.name}>
+                <p class="prep-time">${recipe.time}min</p>
+            </div>
+            <div class="recipe">
+                <h2 class="recipes-name">${recipe.name}</h2>
+                <div class="preparation">
+                    <h3 class="title">Recette</h3>
+                    <p>${recipe.description.substring(0, 180)}${recipe.description.length > 180 ? "..." : ""
+                    }</p>
+                    </div>
+                    <div class="ingredients">
+                    <h3 class="title">Ingrédient</h3>
+                    <ul>
+                        ${recipe.ingredients.map(ingredient => {
+
+                            if (ingredient.quantity !== undefined && ingredient.unit !== undefined) {
+                                return `<li>
+                                <p>${ingredient.ingredient}</p>
+                                <span>${ingredient.quantity} ${ingredient.unit}</span>
+                            </li>`;
+                            } else if(ingredient.quantity !== undefined) {
+                                return `
+                                    <li>
+                                        <p>${ingredient.ingredient}</p>
+                                        <span>${ingredient.quantity}</span>
+                                    </li>
+                                `
+                            }                           
+                        }).join('')}
+                    </ul>
+                </div>
+            </div>
+        `;
+
+        searchResults.appendChild(recipeCard);
+    });
+}
+
+searchInput.addEventListener("input", filterData);
+
+function filterData(e) {
+    searchResults.innerHTML = "";
+    const value = e.target.value.toLowerCase();
+    const filteredData = dataArray.filter((data) => {
+        return data.name.toLowerCase().includes(value);
+    });
+    createRecipeList(filteredData);
+}

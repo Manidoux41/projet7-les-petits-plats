@@ -71,6 +71,12 @@ function createRecipeList(recipeList) {
 
 searchInput.addEventListener("input", filterData);
 
+/**
+ * Filters the data based on the given search value and updates the UI.
+ *
+ * @param {Event} e - The event object representing the input event.
+ * @return {void} No return value.
+ */
 function filterData(e) {
     searchResults.innerHTML = "";
     const value = e.target.value.toLowerCase();
